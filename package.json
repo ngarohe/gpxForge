@@ -1,0 +1,24 @@
+{
+  "name": "gpxforge",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:e2e": "playwright test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "jsdom": "^28.1.0",
+    "prettier": "^3.8.1",
+    "vite": "^6.2.0",
+    "vitest": "^3.0.0"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4"
+  }
+}

@@ -1,0 +1,85 @@
+/* ────────────────────────────────────────────────────────────────────
+   Steps — horizontal step tabs in step toolbar
+   ──────────────────────────────────────────────────────────────────── */
+
+/* ── Step Tab (horizontal pill in .step-tabs row) ─────────────────── */
+
+.step-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text2);
+  transition: background 0.12s, color 0.12s;
+  border: 1px solid transparent;
+  flex-shrink: 0;
+}
+
+.step-tab:hover {
+  background: var(--panel2);
+}
+
+.step-tab.active {
+  background: var(--blue-bg);
+  border-color: #bfdbfe;
+  color: var(--blue);
+  font-weight: 600;
+}
+
+/* ── Number badge ─────────────────────────────────────────────────── */
+
+.step-tab-num {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--panel2);
+  color: var(--muted);
+  border: 1.5px solid var(--border);
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.step-tab.active .step-tab-num {
+  background: var(--blue);
+  color: #fff;
+  border-color: var(--blue);
+}
+
+.step-tab.done .step-tab-num {
+  background: var(--green);
+  color: #fff;
+  border-color: var(--green);
+}
+
+.step-tab.warn .step-tab-num {
+  background: var(--orange);
+  color: #fff;
+  border-color: var(--orange);
+}
+
+/* ── Tab name + status ────────────────────────────────────────────── */
+
+.step-tab-name {
+  font-size: 11px;
+}
+
+.step-tab-status {
+  font-size: 9px;
+  font-family: var(--font-mono);
+  color: var(--muted);
+}
+
+.step-tab.done .step-tab-status { color: var(--green); }
+.step-tab.warn .step-tab-status { color: var(--orange); }
