@@ -1,0 +1,456 @@
+/* ────────────────────────────────────────────────────────────────────
+   Layout — topbar, content area, panels, empty state, drag overlay
+   ──────────────────────────────────────────────────────────────────── */
+
+/* App shell */
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Topbar ─────────────────────────────────────────────────────────── */
+
+.topbar {
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Brand */
+.tb-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  height: 100%;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.tb-brand-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #e8900a, #c06010);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #fff;
+}
+
+.tb-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.tb-brand-name {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.tb-brand-sub {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  line-height: 1;
+}
+
+/* File drop zone */
+.tb-drop {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  height: 100%;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.15s;
+}
+
+.tb-drop:hover {
+  background: var(--panel2);
+}
+
+.tb-drop.drag-over {
+  background: var(--amber-bg);
+}
+
+.tb-drop-icon {
+  font-size: 18px;
+}
+
+.tb-drop-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.tb-drop-label {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.tb-drop-hint {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+/* Stats strip */
+.tb-stats {
+  display: none;
+  align-items: center;
+  gap: 0;
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  height: 100%;
+}
+
+.tb-stats.visible {
+  display: flex;
+}
+
+.tb-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  height: 100%;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.tb-stat-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.tb-stat-val {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ── Step Toolbar (between topbar and content) ─────────────────────── */
+
+.step-toolbar {
+  display: none;
+  flex-direction: column;
+  flex-shrink: 0;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  z-index: 700;
+}
+
+.step-toolbar.visible {
+  display: flex;
+}
+
+.step-tabs {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  gap: 0;
+  padding: 0 8px;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  flex-shrink: 0;
+}
+
+.step-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  padding: 6px 12px;
+  min-height: 32px;
+  flex-shrink: 0;
+}
+
+/* ── Content area — CSS grid with rotatable focus ──────────────────── */
+
+.content {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 3fr 2fr;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* All panels hidden until file load (no data-focus set) */
+.content > .chart-panel,
+.content > .map-panel,
+.content > .info-panel {
+  display: none;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Chart featured (default) ── */
+.content[data-focus="chart"] > .chart-panel {
+  display: flex;
+  grid-row: 1;
+  grid-column: 1 / -1;
+}
+.content[data-focus="chart"] > .map-panel {
+  display: block;
+  grid-row: 2;
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Map featured ── */
+.content[data-focus="map"] > .map-panel {
+  display: block;
+  grid-row: 1;
+  grid-column: 1 / -1;
+}
+.content[data-focus="map"] > .chart-panel {
+  display: flex;
+  grid-row: 2;
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Chart featured — WITH info panel ── */
+.content[data-focus="chart"][data-info] > .map-panel {
+  grid-column: 1;
+}
+.content[data-focus="chart"][data-info] > .info-panel {
+  display: flex;
+  flex-direction: row;
+  grid-row: 2;
+  grid-column: 2;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+}
+
+/* ── Map featured — WITH info panel ── */
+.content[data-focus="map"][data-info] > .chart-panel {
+  grid-column: 1;
+}
+.content[data-focus="map"][data-info] > .info-panel {
+  display: flex;
+  flex-direction: row;
+  grid-row: 2;
+  grid-column: 2;
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+}
+
+/* Info step wrap takes remaining width; batch container sits to its right */
+.info-panel > .info-step-wrap {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.info-panel > .batch-container {
+  display: contents; /* transparent — batch-panel inside controls its own display */
+}
+
+/* Hide promote button on the featured panel */
+.content[data-focus="chart"] > .chart-panel > .panel-promote { display: none; }
+.content[data-focus="map"]   > .map-panel   > .panel-promote { display: none; }
+
+/* ── Resize handle between grid rows ──────────────────────────────── */
+
+.resize-handle {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 12px;
+  margin-top: -6px;
+  z-index: 10;
+  cursor: row-resize;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.content[data-focus] .resize-handle { display: flex; }
+
+.resize-handle-dots {
+  width: 40px;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--border);
+  transition: background 0.15s;
+}
+
+.resize-handle:hover .resize-handle-dots {
+  background: var(--amber);
+}
+
+/* ── Empty state ────────────────────────────────────────────────────── */
+
+.empty-state {
+  grid-row: 1 / -1;
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--muted);
+}
+
+.empty-state-icon {
+  font-size: 48px;
+  opacity: 0.4;
+}
+
+.empty-state-msg {
+  font-size: 14px;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* ── Full-page drag overlay ─────────────────────────────────────────── */
+
+.drag-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(208, 128, 32, 0.08);
+  border: 3px dashed var(--amber);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.drag-overlay.active {
+  display: flex;
+}
+
+.drag-overlay-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--amber);
+}
+
+/* ── Simple-mode progress overlay ───────────────────────────────────── */
+
+.progress-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(20, 24, 32, 0.45);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-overlay.visible {
+  display: flex;
+}
+
+.progress-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 28px;
+  min-width: 320px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.progress-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: var(--amber);
+}
+
+.progress-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-step {
+  display: grid;
+  grid-template-columns: 20px 140px 1fr;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.progress-step[data-state="active"] {
+  color: var(--amber);
+  font-weight: 500;
+}
+
+.progress-step[data-state="done"] {
+  color: #2a7a3a;
+}
+
+.progress-step[data-state="error"] {
+  color: #b04040;
+}
+
+.progress-icon {
+  font-family: ui-monospace, monospace;
+  text-align: center;
+}
+
+.progress-msg {
+  font-size: 12px;
+  opacity: 0.8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Landing: full-screen map before file load ──────────────────────── */
+
+.content[data-focus="landing"] > .map-panel {
+  display: block;
+  grid-row: 1 / -1;
+  grid-column: 1 / -1;
+}
+
+.content[data-focus="landing"] .resize-handle { display: none; }
+
+/* ── Map-featured rows: 70/30 split (more map for builder/trim/snap) ── */
+/* Chart-featured stays at the default 60/40 from .content above.       */
+
+.content[data-focus="map"] {
+  grid-template-rows: 7fr 3fr;
+}
+
+/* ── Simple mode: hide expert-only controls ─────────────────────────── */
+
+body[data-mode="simple"] .step-toolbar { display: none !important; }
+/* Builder controls live in the step toolbar — keep visible in builder mode */
+body[data-mode="simple"].builder-active .step-toolbar { display: flex !important; }
+
+body[data-mode="simple"] .tool-btn--undo,
+body[data-mode="simple"] .tool-btn--redo,
+body[data-mode="simple"] .tool-btn--lidar,
+body[data-mode="simple"] .tool-btn--park { display: none !important; }

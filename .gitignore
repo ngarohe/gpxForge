@@ -1,0 +1,27 @@
+node_modules/
+dist/
+.vite/
+*.local
+.env
+.env.*
+.DS_Store
+Thumbs.db
+*.log
+.claude/
+sandbox-fork/
+
+# Configuration with secrets — copy config.example.py to config.py and fill in values
+server/config.py
+config.py
+
+# Backend runtime artifacts
+server/.env
+server/data/
+server/.venv/
+server/.run/
+server/__pycache__/
+server/elevation_providers/__pycache__/
+server/*.pyc
+server/elevation_providers/*.pyc
+server/*.tif
+server/*.vrt

@@ -1,0 +1,275 @@
+/* ────────────────────────────────────────────────────────────────────
+   Steps — horizontal step tabs in step toolbar
+   ──────────────────────────────────────────────────────────────────── */
+
+/* ── Step Tab (horizontal pill in .step-tabs row) ─────────────────── */
+
+.step-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text2);
+  transition: background 0.12s, color 0.12s;
+  border: 1px solid transparent;
+  flex-shrink: 0;
+}
+
+.step-tab:hover {
+  background: var(--panel2);
+}
+
+.step-tab.active {
+  background: var(--blue-bg);
+  border-color: #bfdbfe;
+  color: var(--blue);
+  font-weight: 600;
+}
+
+/* ── Number badge ─────────────────────────────────────────────────── */
+
+.step-tab-num {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--panel2);
+  color: var(--muted);
+  border: 1.5px solid var(--border);
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.step-tab.active .step-tab-num {
+  background: var(--blue);
+  color: #fff;
+  border-color: var(--blue);
+}
+
+.step-tab.done .step-tab-num {
+  background: var(--green);
+  color: #fff;
+  border-color: var(--green);
+}
+
+.step-tab.warn .step-tab-num {
+  background: var(--orange);
+  color: #fff;
+  border-color: var(--orange);
+}
+
+/* ── Tab name + status ────────────────────────────────────────────── */
+
+.step-tab-name {
+  font-size: 11px;
+}
+
+.step-tab-status {
+  font-size: 9px;
+  font-family: var(--font-mono);
+  color: var(--muted);
+}
+
+.step-tab.done .step-tab-status { color: var(--green); }
+.step-tab.warn .step-tab-status { color: var(--orange); }
+
+/* ────────────────────────────────────────────────────────────────────
+   Batch Queue Panel
+   ──────────────────────────────────────────────────────────────────── */
+
+.batch-panel {
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+  min-width: 180px;
+  flex-shrink: 0;
+  background: var(--panel);
+  border-left: 1px solid var(--border);
+  font-size: 11px;
+  overflow: hidden;
+}
+
+.batch-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border);
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.batch-title {
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--text1);
+  white-space: nowrap;
+}
+
+.batch-header-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.batch-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.batch-entry {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.batch-entry:last-child { border-bottom: none; }
+
+.batch-entry--active {
+  background: var(--amber-bg);
+  border-left: 3px solid var(--amber);
+  padding-left: 5px;
+}
+
+.batch-entry-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.batch-entry-name {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.batch-entry-size {
+  font-size: 10px;
+  color: var(--text3);
+  margin-top: 1px;
+}
+
+.batch-entry-actions {
+  display: flex;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+/* Status badges */
+.batch-badge {
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.badge-grey   { background: var(--bg2); color: var(--text3); }
+.badge-pulse  { background: #1a4a8a20; color: #6ab3ff; animation: badge-pulse 1.2s ease-in-out infinite; }
+.badge-green  { background: #1a6a3020; color: var(--green); }
+.badge-amber  { background: #7a4a0020; color: var(--amber, #f5a623); }
+.badge-done   { background: #1a6a3040; color: var(--green); font-weight: 600; }
+.badge-error  { background: #6a1a1a20; color: var(--red, #e74c3c); }
+
+@keyframes badge-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Buttons */
+.batch-btn {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  color: var(--text2);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.batch-btn:hover { background: var(--bg3); color: var(--text1); }
+
+.batch-btn--primary {
+  background: var(--accent, #2d6cdf);
+  border-color: var(--accent, #2d6cdf);
+  color: #fff;
+}
+
+.batch-btn--primary:hover { filter: brightness(1.1); }
+
+.batch-btn--small { padding: 1px 5px; font-size: 10px; }
+
+.batch-btn--danger { color: var(--red, #e74c3c); }
+.batch-btn--danger:hover { background: #6a1a1a20; border-color: var(--red, #e74c3c); }
+
+/* Footer progress */
+.batch-footer {
+  padding: 6px 8px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.batch-progress-bar {
+  height: 4px;
+  background: var(--bg3);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.batch-progress-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.batch-progress-text {
+  font-size: 10px;
+  color: var(--text3);
+  text-align: center;
+}
+
+
+/* Source badge on queue entries */
+.batch-entry-source {
+  font-size: 9px;
+  padding: 1px 4px;
+  border-radius: 2px;
+  background: var(--bg3);
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.batch-entry-name-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.batch-entry-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}

@@ -1,0 +1,859 @@
+/* ────────────────────────────────────────────────────────────────────
+   Components — buttons, toolbar, stat color modifiers
+   ──────────────────────────────────────────────────────────────────── */
+
+/* Toast notifications */
+.gpxforge-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(16px);
+  background: #1e293b;
+  color: #f1f5f9;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: 'IBM Plex Mono', monospace;
+  max-width: min(480px, 90vw);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 9999;
+  pointer-events: none;
+}
+.gpxforge-toast--visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.gpxforge-toast--error {
+  background: #7f1d1d;
+  color: #fee2e2;
+}
+
+/* Mode toggle pill (Simple / Expert) — starts the right-aligned topbar group */
+.tb-mode {
+  display: inline-flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 4px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel);
+  flex-shrink: 0;
+}
+.tb-mode-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--text2);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.tb-mode-btn:hover {
+  color: var(--text);
+}
+.tb-mode-btn.active {
+  background: var(--blue);
+  color: #fff;
+}
+.tb-mode-btn.locked {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.tb-mode-btn.locked:hover {
+  color: var(--text2);
+  background: transparent;
+}
+
+/* Toolbar area in topbar (right side) */
+.tb-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px;
+  flex-shrink: 0;
+}
+
+/* Tool button (undo, redo) */
+.tool-btn {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  border: 1px solid var(--border);
+  background: var(--panel);
+  cursor: pointer;
+  color: var(--text2);
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.tool-btn:hover:not(:disabled) {
+  background: var(--panel2);
+  color: var(--text);
+}
+
+.tool-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* Active state — used by Create Route button when builder mode is on */
+.tool-btn--active {
+  background: #e87020;
+  color: #fff;
+  border-color: #c05010;
+}
+.tool-btn--active:hover:not(:disabled) {
+  background: #c05010;
+  color: #fff;
+}
+
+/* Busy state — spinning circle prepended to the button text.
+   Used by LIDAR button while a fetch is in flight (and any other
+   tool button that wants the same visual treatment via .busy). */
+.tool-btn.busy {
+  opacity: 1; /* override :disabled fade so the spinner is clearly visible */
+}
+.tool-btn.busy::before {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 6px;
+  vertical-align: -2px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: tool-btn-spin 0.8s linear infinite;
+}
+@keyframes tool-btn-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Download button — green accent */
+.btn-download {
+  padding: 5px 12px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  border: 1px solid var(--green);
+  background: var(--green-bg);
+  cursor: pointer;
+  color: var(--green);
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.btn-download:hover:not(:disabled) {
+  background: var(--green-light);
+}
+
+.btn-download:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* Panel promote button — shown on secondary panels, hidden on featured */
+.panel-promote {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  z-index: 1100;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--muted);
+  transition: background 0.15s, color 0.15s;
+}
+
+.panel-promote:hover {
+  background: var(--amber-bg);
+  color: var(--amber);
+}
+
+/* Stat value color modifiers */
+.tb-stat-val.amber { color: var(--amber); }
+.tb-stat-val.green { color: var(--green); }
+.tb-stat-val.orange { color: var(--orange); }
+.tb-stat-val.red { color: var(--red); }
+.tb-stat-val.blue { color: var(--blue); }
+
+/* ── Panel action buttons ────────────────────────────────────────── */
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-sans);
+  letter-spacing: 0.3px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 5px;
+  transition: all 0.12s;
+}
+
+.btn:disabled { opacity: 0.38; cursor: default; }
+
+.btn-run   { background: var(--amber); color: #fff; }
+.btn-run:not(:disabled):hover { background: #b06010; }
+
+.btn-ghost { background: var(--panel2); color: var(--text2); border: 1px solid var(--border); }
+.btn-ghost:not(:disabled):hover { background: var(--border); }
+
+.btn-snap  { background: #1d4ed8; color: #fff; }
+.btn-snap:not(:disabled):hover { background: #1640b0; }
+
+.btn-green { background: var(--green); color: #fff; }
+.btn-green:not(:disabled):hover { background: #156030; }
+
+.btn-orange { background: #c07030; color: #fff; }
+.btn-orange:not(:disabled):hover { background: #a05020; }
+
+/* ── Parameter rows ──────────────────────────────────────────────── */
+
+.param {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+}
+
+.param-info { flex: 1; min-width: 0; }
+.param-name { font-size: 11px; font-weight: 500; color: var(--text); }
+.param-hint { font-size: 9px; color: var(--muted); margin-top: 1px; }
+
+.param-val {
+  width: 56px;
+  flex-shrink: 0;
+  text-align: right;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 4px 6px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  color: var(--text);
+  background: var(--panel2);
+  transition: border 0.12s;
+}
+
+.param-val:focus {
+  outline: none;
+  border-color: var(--amber);
+  background: #fff;
+}
+
+/* ── Select inputs ───────────────────────────────────────────────── */
+
+.param-select {
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 4px 6px;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  color: var(--text);
+  background: var(--panel2);
+  cursor: pointer;
+}
+
+.param-select:focus {
+  outline: none;
+  border-color: var(--amber);
+}
+
+/* ── Toggle switches ─────────────────────────────────────────────── */
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.toggle-info { flex: 1; min-width: 0; }
+.toggle-label { font-size: 11px; font-weight: 500; color: var(--text); }
+.toggle-hint { font-size: 9px; color: var(--muted); }
+
+.toggle {
+  position: relative;
+  display: inline-flex;
+  width: 34px;
+  height: 19px;
+  flex-shrink: 0;
+}
+
+.toggle input { opacity: 0; width: 0; height: 0; }
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: var(--border2);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.toggle-slider::before {
+  content: "";
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  left: 3px;
+  bottom: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: 0.2s;
+}
+
+.toggle input:checked + .toggle-slider { background: var(--amber); }
+.toggle input:checked + .toggle-slider::before { transform: translateX(15px); }
+
+/* ── Help buttons & panels ───────────────────────────────────────── */
+
+.help-btn {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--border2);
+  background: var(--panel2);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.12s;
+}
+
+.help-btn:hover {
+  background: var(--amber-bg);
+  color: var(--amber);
+  border-color: var(--amber);
+}
+
+.help-panel {
+  display: none;
+  background: var(--amber-bg);
+  border: 1px solid #f0d070;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--text2);
+  margin-bottom: 10px;
+}
+
+.help-panel.vis { display: block; }
+
+/* ── Inline tip ──────────────────────────────────────────────────── */
+
+.tool-tip {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.5;
+  padding: 5px 8px;
+  background: var(--panel2);
+  border-radius: 5px;
+  margin-bottom: 10px;
+  border-left: 2px solid var(--border2);
+}
+
+/* ── Progress bar ────────────────────────────────────────────────── */
+
+.progress {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 8px 0;
+  overflow: hidden;
+  display: none;
+}
+
+.progress.vis { display: block; }
+.progress-fill { height: 100%; width: 0; background: var(--amber); transition: width 0.2s; border-radius: 2px; }
+
+/* ── Log area ────────────────────────────────────────────────────── */
+
+.log-area {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text2);
+  line-height: 1.7;
+  overflow-y: auto;
+  padding: 0 2px;
+  flex: 1;
+  min-height: 0;
+}
+
+.log-area .e { color: var(--red); }
+.log-area .w { color: var(--orange); }
+.log-area .i { color: var(--cyan); }
+.log-area .s { color: var(--green); font-weight: 600; }
+
+/* ── Stats panel ─────────────────────────────────────────────────── */
+
+.sstats {
+  display: none;
+  background: var(--panel2);
+  border-radius: 6px;
+  padding: 7px 10px;
+  margin-top: 8px;
+}
+
+.sstats.vis { display: block; }
+
+.sstat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  padding: 2px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.sstat-row:last-child { border-bottom: none; }
+.sstat-label { color: var(--muted); }
+.sstat-val { font-weight: 600; font-family: var(--font-mono); color: var(--text); }
+
+/* ── Section badge ───────────────────────────────────────────────── */
+
+.tsec-badge {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid currentColor;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+/* ────────────────────────────────────────────────────────────────────
+   Compact inline toolbar components (step-toolbar controls)
+   ──────────────────────────────────────────────────────────────────── */
+
+/* ── Toolbar groups (vertical divider separates param clusters) ──── */
+
+.tb-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-right: 12px;
+  border-right: 1px solid var(--border);
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+.tb-group:last-child {
+  border-right: none;
+  padding-right: 0;
+  margin-right: 0;
+}
+
+.tb-group-label {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+/* ── Inline param: Label [input] ─────────────────────────────────── */
+
+.tb-param {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.tb-param-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text2);
+  white-space: nowrap;
+  cursor: help;
+}
+
+.tb-param-input {
+  width: 48px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-size: 11px;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  color: var(--text);
+  background: var(--panel2);
+  text-align: right;
+}
+
+.tb-place-input {
+  width: 160px;
+  text-align: left;
+}
+
+.tb-param-input:focus {
+  outline: none;
+  border-color: var(--amber);
+  background: #fff;
+}
+
+.tb-param-select {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-size: 10px;
+  font-family: var(--font-sans);
+  color: var(--text);
+  background: var(--panel2);
+}
+
+.tb-param-select:focus {
+  outline: none;
+  border-color: var(--amber);
+}
+
+/* ── Inline toggle ───────────────────────────────────────────────── */
+
+.tb-toggle {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.tb-toggle input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--amber);
+}
+
+.tb-toggle-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text2);
+  white-space: nowrap;
+  cursor: help;
+}
+
+/* ── Inline action buttons (compact) ─────────────────────────────── */
+
+.tb-btn {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.12s;
+  flex-shrink: 0;
+}
+
+.tb-btn:disabled { opacity: 0.38; cursor: default; }
+
+.tb-btn-run   { background: var(--amber); color: #fff; }
+.tb-btn-run:not(:disabled):hover { background: #b06010; }
+
+.tb-btn-ghost { background: var(--panel2); color: var(--text2); border: 1px solid var(--border); }
+.tb-btn-ghost:not(:disabled):hover { background: var(--border); }
+
+.tb-btn-snap  { background: #1d4ed8; color: #fff; }
+.tb-btn-snap:not(:disabled):hover { background: #1640b0; }
+
+.tb-btn-green { background: var(--green); color: #fff; }
+.tb-btn-green:not(:disabled):hover { background: #156030; }
+
+.tb-btn-orange { background: #c07030; color: #fff; }
+.tb-btn-orange:not(:disabled):hover { background: #a05020; }
+
+.tb-autocomplete {
+  position: relative;
+}
+
+.tb-suggest {
+  position: absolute;
+  top: calc(100% + 3px);
+  left: 0;
+  width: 280px;
+  max-height: 190px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  box-shadow: var(--shadow2);
+  z-index: 80;
+  display: none;
+}
+
+.tb-suggest-item {
+  display: block;
+  width: 100%;
+  padding: 7px 8px;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.tb-suggest-item:last-child {
+  border-bottom: none;
+}
+
+.tb-suggest-item:hover {
+  background: var(--panel2);
+}
+
+/* ── Inline status text (e.g. trim status) ───────────────────────── */
+
+.tb-status {
+  font-size: 10px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* ────────────────────────────────────────────────────────────────────
+   Info panel content containers
+   ──────────────────────────────────────────────────────────────────── */
+
+.info-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 6px 10px;
+}
+
+/* ────────────────────────────────────────────────────────────────────
+   Corrections list (info panel — Clean step)
+   ──────────────────────────────────────────────────────────────────── */
+
+.corr-section {
+  padding: 4px 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.corr-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.corr-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text2);
+}
+
+.corr-count {
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--amber);
+  background: var(--amber-bg);
+  padding: 0 5px;
+  border-radius: 8px;
+  min-width: 18px;
+  text-align: center;
+}
+
+.corr-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.corr-empty {
+  font-size: 10px;
+  color: var(--muted);
+  padding: 8px;
+  text-align: center;
+}
+
+/* ── Correction item (grid row) ──────────────────────────────────── */
+
+.corr-item {
+  display: grid;
+  grid-template-columns: 22px 90px 44px 70px 1fr 72px;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.1s;
+  font-size: 10px;
+}
+
+.corr-item:hover {
+  background: var(--panel2);
+}
+
+.corr-item:last-child {
+  border-bottom: none;
+}
+
+/* ── Per-cell styles ─────────────────────────────────────────────── */
+
+.ci-num {
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.ci-km {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ci-span {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text2);
+  text-align: right;
+}
+
+.ci-type {
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  text-align: center;
+  color: var(--muted);
+  background: var(--panel2);
+  border: 1px solid var(--border);
+}
+
+.ci-type.bridge {
+  color: #1d4ed8;
+  background: #e0ecff;
+  border-color: #1d4ed8;
+}
+
+.ci-type.tunnel {
+  color: #7c3aed;
+  background: #ede9fe;
+  border-color: #7c3aed;
+}
+
+.ci-type.artifact {
+  color: #92400e;
+  background: #fef3c7;
+  border-color: #d97706;
+}
+
+.ci-type.suspect {
+  color: var(--orange);
+  background: #fff3e0;
+  border-color: var(--orange);
+}
+
+.ci-grade {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text2);
+}
+
+/* ── Action buttons ──────────────────────────────────────────────── */
+
+.ci-actions {
+  display: flex;
+  gap: 2px;
+  justify-content: flex-end;
+}
+
+.ci-btn-accept,
+.ci-btn-reject {
+  width: 22px;
+  height: 20px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  background: var(--panel2);
+  cursor: pointer;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.1s;
+}
+
+.ci-btn-accept:hover {
+  background: #d4edda;
+  color: var(--green);
+  border-color: var(--green);
+}
+
+.ci-btn-reject:hover {
+  background: #f8d7da;
+  color: var(--red);
+  border-color: var(--red);
+}
+
+/* ── State classes ───────────────────────────────────────────────── */
+
+.corr-item.sel {
+  background: var(--amber-bg);
+  border-color: var(--amber);
+}
+
+.corr-item.suspect-item .ci-num {
+  color: var(--orange);
+}
+
+.corr-item.rejected {
+  opacity: 0.45;
+}
+
+.corr-item.accepted .ci-btn-accept {
+  background: #d4edda;
+  color: var(--green);
+  border-color: var(--green);
+}
