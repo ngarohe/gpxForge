@@ -1,0 +1,25 @@
+# Configuration with secrets and local paths
+.env
+.env.local
+.env.*.local
+
+# Data files (LIDAR tiles, elevations)
+data/
+*.tif
+*.tiff
+*.vrt
+*.VRT
+*.geotiff
+
+# Python
+__pycache__/
+elevation_providers/__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+*.egg
+
+# Logs and temp
+*.log
+*.tmp
+.DS_Store

@@ -1,0 +1,46 @@
+node_modules/
+dist/
+.vite/
+*.local
+.env
+.env.*
+.DS_Store
+Thumbs.db
+*.log
+.claude/
+sandbox-fork/
+
+# External reference clone (GPXmagic V3 source) — not part of this repo
+.gpxmagic-src/
+
+# Recovered native-smoother experiment snapshot (anchored by branch
+# archive/native-smoother-recovery) — local reference only, not part of the repo
+recovered/
+
+# Local test GPX fixtures (manual in-browser testing) — not part of the repo
+Test files/
+
+# Configuration with secrets — copy config.example.py to config.py and fill in values
+server/config.py
+config.py
+
+# Personal machine launcher — contains local paths/username.
+# Copy start-gpxforge.example.bat to start-gpxforge.bat and adjust locally.
+start-gpxforge.bat
+
+# Backend runtime artifacts
+server/.env
+server/data/
+server/.venv/
+server/.run/
+server/.cache/
+server/cache/
+server/__pycache__/
+server/elevation_providers/__pycache__/
+server/*.pyc
+server/elevation_providers/*.pyc
+server/*.tif
+server/*.vrt
+
+# Learning Mode exports (captured training/eval data — not source)
+Learning/

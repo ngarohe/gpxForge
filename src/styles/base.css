@@ -1,0 +1,44 @@
+/* ────────────────────────────────────────────────────────────────────
+   Base — reset, variables, typography
+   ──────────────────────────────────────────────────────────────────── */
+
+:root {
+  --bg:          #f4f5f7;
+  --panel:       #ffffff;
+  --panel2:      #f8f9fa;
+  --border:      #e2e6ec;
+  --border2:     #c8cdd8;
+  --text:        #1a1d23;
+  --text2:       #4a5568;
+  --muted:       #8896a8;
+  --amber:       #d08020;
+  --amber-bg:    #fff8e6;
+  --amber-light: #fef3c7;
+  --cyan:        #0077aa;
+  --green:       #1a7a3a;
+  --green-bg:    #edfbf2;
+  --green-light: #d1fae5;
+  --red:         #b91c1c;
+  --red-bg:      #fff0f0;
+  --orange:      #c2410c;
+  --orange-bg:   #fff4ed;
+  --blue:        #1d4ed8;
+  --blue-bg:     #eff6ff;
+  --purple:      #6d28d9;
+  --shadow:      0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow2:     0 4px 16px rgba(0,0,0,0.10);
+  --radius:      8px;
+  --font-sans:   'Inter', system-ui, sans-serif;
+  --font-mono:   'IBM Plex Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  min-height: 100vh;
+  overflow: hidden;
+}

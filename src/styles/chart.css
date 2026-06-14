@@ -1,0 +1,105 @@
+/* ────────────────────────────────────────────────────────────────────
+   Chart — elevation profile, gradient overlay, mini strip
+   ──────────────────────────────────────────────────────────────────── */
+
+/* Chart panel — flex column containing all three canvases.
+   Fills whatever container the focus layout gives it. */
+.chart-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--panel);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* Main elevation canvas — takes remaining flex space */
+.chart-main {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  cursor: crosshair;
+}
+
+/* Gradient overlay — fixed 88px height */
+.chart-grad {
+  height: 88px;
+  flex-shrink: 0;
+  position: relative;
+  border-top: 1px solid var(--border);
+  cursor: crosshair;
+}
+
+/* Mini strip — fixed 36px height */
+.chart-mini {
+  height: 36px;
+  flex-shrink: 0;
+  position: relative;
+  border-top: 1px solid var(--border);
+  background: var(--panel2);
+  cursor: pointer;
+}
+
+/* All canvases fill their container absolutely */
+.chart-main canvas,
+.chart-grad canvas,
+.chart-mini canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Tool buttons (undo/redo/draw zone) ── */
+.chart-tools {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  gap: 4px;
+  z-index: 2;
+}
+
+.chart-tools .tool-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text2);
+  transition: background 0.15s, color 0.15s;
+}
+
+.chart-tools .tool-btn:hover {
+  background: var(--amber-bg);
+  color: var(--amber);
+}
+
+.chart-tools .tool-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* ── Draw mode hint overlay ── */
+.draw-hint {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--amber-bg);
+  border: 1px solid var(--amber);
+  padding: 6px 14px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  color: var(--text);
+  pointer-events: none;
+  z-index: 3;
+  white-space: nowrap;
+}

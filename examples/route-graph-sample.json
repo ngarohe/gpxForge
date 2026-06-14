@@ -1,0 +1,44 @@
+{
+  "_comment": "Hand-authored route-graph sample. Load via the Split-step '⬡ Graph→GPX' button (or window.gpxforgeCompileGraph(obj) in the console) to compile to a flat GPX. This demonstrates the directed-graph model: an out-and-back over one canonical segment plus a spur, so the return passes are bit-identical to the outbound (one rendered road in BikeTerra). Nodes carry the shared crossing elevation; segment points carry the canonical geometry.",
+  "nodes": {
+    "START": { "lat": 46.0500, "lon": 14.5000, "ele": 300 },
+    "CROSS": { "lat": 46.0560, "lon": 14.5120, "ele": 318 },
+    "TURN":  { "lat": 46.0610, "lon": 14.5230, "ele": 332 },
+    "SPUR":  { "lat": 46.0595, "lon": 14.5310, "ele": 326 }
+  },
+  "segments": {
+    "S_start_cross": {
+      "from": "START", "to": "CROSS",
+      "points": [
+        { "lat": 46.0500, "lon": 14.5000, "ele": 300 },
+        { "lat": 46.0520, "lon": 14.5040, "ele": 306 },
+        { "lat": 46.0540, "lon": 14.5080, "ele": 312 },
+        { "lat": 46.0560, "lon": 14.5120, "ele": 318 }
+      ]
+    },
+    "S_cross_turn": {
+      "from": "CROSS", "to": "TURN",
+      "points": [
+        { "lat": 46.0560, "lon": 14.5120, "ele": 318 },
+        { "lat": 46.0585, "lon": 14.5175, "ele": 325 },
+        { "lat": 46.0610, "lon": 14.5230, "ele": 332 }
+      ]
+    },
+    "S_cross_spur": {
+      "from": "CROSS", "to": "SPUR",
+      "points": [
+        { "lat": 46.0560, "lon": 14.5120, "ele": 318 },
+        { "lat": 46.0578, "lon": 14.5215, "ele": 322 },
+        { "lat": 46.0595, "lon": 14.5310, "ele": 326 }
+      ]
+    }
+  },
+  "route": [
+    { "segment": "S_start_cross", "dir": "forward" },
+    { "segment": "S_cross_turn",  "dir": "forward" },
+    { "segment": "S_cross_turn",  "dir": "reverse" },
+    { "segment": "S_cross_spur",  "dir": "forward" },
+    { "segment": "S_cross_spur",  "dir": "reverse" },
+    { "segment": "S_start_cross", "dir": "reverse" }
+  ]
+}
